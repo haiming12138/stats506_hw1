@@ -4,10 +4,22 @@ author: "Haiming Li"
 format: 
   html:
     toc: true
-  pdf: default
 ---
 
 ## Wine Data
+a. Data loading
+```{r q1a}
+wine_df <- read.csv('./wine/wine.data', header=FALSE)
+names(wine_df) <- c('class', 'alcohol', 'malic_acid', 'ash', 
+                    'alcalinity_of_ash', 'magnesium', 'total_phenols',
+                    'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 
+                    'color_intensity', 'hue', 'od280_od315_ratio', 'proline')
+```
+b.
+```{r}
+
+```
+
 
 ## AskAManager.org Data
 
