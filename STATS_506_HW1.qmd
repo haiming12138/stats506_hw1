@@ -1,0 +1,14 @@
+---
+title: "STATS 506 Problem Set #1"
+author: "Haiming Li"
+format: 
+  html:
+    toc: true
+  pdf: default
+---
+
+## Wine Data
+
+## AskAManager.org Data
+
+## Palindromic Numbers
