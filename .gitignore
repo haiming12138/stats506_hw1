@@ -50,3 +50,6 @@ rsconnect/
 
 # Temporary quarto file
 STATS_506_HW1_files/
+
+# Mac files
+.DS_Store
