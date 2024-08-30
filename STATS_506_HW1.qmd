@@ -64,5 +64,71 @@ t.test(splited_df$"2"$total_phenols, splited_df$"3"$total_phenols)
 ```
 
 ## AskAManager.org Data
+a. Data loading.
+```{r}
+AskAManager <- read.csv("AskAManager.csv")[-1]
+```
+b. Column cleaning.
+```{r}
+
+```
+c.
+d.
+e.
 
 ## Palindromic Numbers
+a. Here's the function.
+```{r q3a}
+#' @param n Positive integer
+#' @return A list with two elements:
+#'         - isPalindromic: Boolean indicating if the input is palindromic
+#'         - reversed: The input with its digits reversed
+isPalindromic <- function(n) {
+  # check invalid input
+  if (!is.numeric(n) || !(all.equal(n, as.integer(n)) == TRUE) || n <= 0) {
+    stop('Invalid input: positive integer only')
+  }
+  
+  # convert to vector of character
+  s <- strsplit(as.character(n), '')[[1]]
+  # reverse the vector and convert back to number
+  reverse_n <- as.numeric(paste(s[length(s):1], collapse = ''))
+  
+  return(list(isPalindromic=(all.equal(n, reverse_n) == TRUE), reversed=reverse_n))
+}
+```
+b. Here's the function.
+```{r}
+#' @param n Positive integer
+#' @return Next palindromic number greater than the input
+nextPalindrome <- function(n) {
+  # check invalid input
+  if (!is.numeric(n) || !(all.equal(n, as.integer(n)) == TRUE) || n <= 0) {
+    stop('Invalid input: positive integer only')
+  }
+  
+  next_n <- n + 1
+  while (!isPalindromic(next_n)$isPalindromic) {
+    next_n <- next_n + 1
+  }
+  
+  return(next_n)
+}
+```
+c. Here are the results.
+```{r}
+# i
+nextPalindrome(391)
+# ii
+nextPalindrome(9928)
+# iii
+nextPalindrome(19272719)
+# iv
+nextPalindrome(109)
+# v
+nextPalindrome(2)
+```
+
+
+
+
