@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="wine-data" class="level2">
 <h2 class="anchored" data-anchor-id="wine-data">Wine Data</h2>
 <ol type="a">
-<li>Data loading</li>
+<li>Data loading.</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wine_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'./wine/wine.data'</span>, <span class="at">header=</span><span class="cn">FALSE</span>)</span>
@@ -126,8 +126,136 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'color_intensity'</span>, <span class="st">'hue'</span>, <span class="st">'od280_od315_ratio'</span>, <span class="st">'proline'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="a">
-<li></li>
+<li>Class count seems to be consistent.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(wine_df<span class="sc">$</span>class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 1  2  3 
+59 71 48 </code></pre>
+</div>
+</div>
+<ol start="3" type="a">
+<li>Here are the answers.
+<ol type="1">
+<li>Correlation is 0.5463642.</li>
+</ol></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(wine_df<span class="sc">$</span>alcohol, wine_df<span class="sc">$</span>color_intensity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5463642</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>It seems class 1 have the highest correlation and class 2 have the lowest.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>splited_df <span class="ot">&lt;-</span> <span class="fu">split</span>(wine_df, wine_df<span class="sc">$</span>class)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(splited_df, <span class="cf">function</span>(df) <span class="fu">cor</span>(df<span class="sc">$</span>alcohol, df<span class="sc">$</span>color_intensity))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        1         2         3 
+0.4082913 0.2697891 0.3503777 </code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>The alcohol content of the wine with the highest color intensity is 14.34.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wine_df<span class="sc">$</span>alcohol[<span class="fu">which.max</span>(wine_df<span class="sc">$</span>color_intensity)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14.34</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>8.43% of wines had a higher content of proanthocyanins compare to ash.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(wine_df<span class="sc">$</span>proanthocyanins <span class="sc">&gt;</span> wine_df<span class="sc">$</span>ash)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08426966</code></pre>
+</div>
+</div>
+<ol start="4" type="a">
+<li>Here’s the table. Notice that here I used a previously defined variable that splits the dataframe based on class.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">overall=</span><span class="fu">colMeans</span>(wine_df[,<span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">class1=</span><span class="fu">colMeans</span>(splited_df<span class="sc">$</span><span class="st">"1"</span>[,<span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">class2=</span><span class="fu">colMeans</span>(splited_df<span class="sc">$</span><span class="st">"2"</span>[,<span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">class3=</span><span class="fu">colMeans</span>(splited_df<span class="sc">$</span><span class="st">"3"</span>[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">t</span>(res))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         alcohol malic_acid      ash alcalinity_of_ash magnesium total_phenols
+overall 13.00062   2.336348 2.366517          19.49494  99.74157      2.295112
+class1  13.74475   2.010678 2.455593          17.03729 106.33898      2.840169
+class2  12.27873   1.932676 2.244789          20.23803  94.54930      2.258873
+class3  13.15375   3.333750 2.437083          21.41667  99.31250      1.678750
+        flavanoids nonflavanoid_phenols proanthocyanins color_intensity
+overall  2.0292697            0.3618539        1.590899        5.058090
+class1   2.9823729            0.2900000        1.899322        5.528305
+class2   2.0808451            0.3636620        1.630282        3.086620
+class3   0.7814583            0.4475000        1.153542        7.396250
+              hue od280_od315_ratio   proline
+overall 0.9574494          2.611685  746.8933
+class1  1.0620339          3.157797 1115.7119
+class2  1.0562817          2.785352  519.5070
+class3  0.6827083          1.683542  629.8958</code></pre>
+</div>
+</div>
+<ol start="5" type="a">
+<li>Here we can see all p-values are less than 0.05, thus we can reject the null hypothesis. The phenols level appears to be different across classes.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class 1 v.s. class 2</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(splited_df<span class="sc">$</span><span class="st">"1"</span><span class="sc">$</span>total_phenols, splited_df<span class="sc">$</span><span class="st">"2"</span><span class="sc">$</span>total_phenols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  splited_df$"1"$total_phenols and splited_df$"2"$total_phenols
+t = 7.4206, df = 119.14, p-value = 1.889e-11
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.4261870 0.7364055
+sample estimates:
+mean of x mean of y 
+ 2.840169  2.258873 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class 1 v.s. class 3</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(splited_df<span class="sc">$</span><span class="st">"1"</span><span class="sc">$</span>total_phenols, splited_df<span class="sc">$</span><span class="st">"3"</span><span class="sc">$</span>total_phenols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  splited_df$"1"$total_phenols and splited_df$"3"$total_phenols
+t = 17.12, df = 98.356, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 1.026801 1.296038
+sample estimates:
+mean of x mean of y 
+ 2.840169  1.678750 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class 2 v.s. class 3</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(splited_df<span class="sc">$</span><span class="st">"2"</span><span class="sc">$</span>total_phenols, splited_df<span class="sc">$</span><span class="st">"3"</span><span class="sc">$</span>total_phenols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  splited_df$"2"$total_phenols and splited_df$"3"$total_phenols
+t = 7.0125, df = 116.91, p-value = 1.622e-10
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.4162855 0.7439610
+sample estimates:
+mean of x mean of y 
+ 2.258873  1.678750 </code></pre>
+</div>
+</div>
 </section>
 <section id="askamanager.org-data" class="level2">
 <h2 class="anchored" data-anchor-id="askamanager.org-data">AskAManager.org Data</h2>

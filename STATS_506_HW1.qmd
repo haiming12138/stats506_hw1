@@ -7,7 +7,9 @@ format:
 ---
 
 ## Wine Data
-a. Data loading
+
+a. Data loading.
+
 ```{r q1a}
 wine_df <- read.csv('./wine/wine.data', header=FALSE)
 names(wine_df) <- c('class', 'alcohol', 'malic_acid', 'ash', 
@@ -15,11 +17,51 @@ names(wine_df) <- c('class', 'alcohol', 'malic_acid', 'ash',
                     'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 
                     'color_intensity', 'hue', 'od280_od315_ratio', 'proline')
 ```
-b.
-```{r}
 
+b.  Class count seems to be consistent.
+
+```{r q1b}
+table(wine_df$class)
 ```
 
+c.  Here are the answers.
+    1.  Correlation is 0.5463642.
+
+```{r q1c_1}
+cor(wine_df$alcohol, wine_df$color_intensity)
+```
+  2. It seems class 1 have the highest correlation and class 2 have the lowest.
+```{r q1c_2}
+splited_df <- split(wine_df, wine_df$class)
+sapply(splited_df, function(df) cor(df$alcohol, df$color_intensity))
+```
+  3. The alcohol content of the wine with the highest color intensity is 14.34.
+```{r q1c_3}
+wine_df$alcohol[which.max(wine_df$color_intensity)]
+```
+  4. 8.43% of wines had a higher content of proanthocyanins compare to ash.
+```{r q1c_4}
+mean(wine_df$proanthocyanins > wine_df$ash)
+```
+d. Here's the table. Notice that here I used a previously defined variable that splits the dataframe based on class.
+```{r q1d}
+res <- data.frame(
+  overall=colMeans(wine_df[,-1]),
+  class1=colMeans(splited_df$"1"[,-1]),
+  class2=colMeans(splited_df$"2"[,-1]),
+  class3=colMeans(splited_df$"3"[,-1])
+)
+data.frame(t(res))
+```
+e. Here we can see all p-values are less than 0.05, thus we can reject the null hypothesis. The phenols level appears to be different across classes.
+```{r q1e}
+# class 1 v.s. class 2
+t.test(splited_df$"1"$total_phenols, splited_df$"2"$total_phenols)
+# class 1 v.s. class 3
+t.test(splited_df$"1"$total_phenols, splited_df$"3"$total_phenols)
+# class 2 v.s. class 3
+t.test(splited_df$"2"$total_phenols, splited_df$"3"$total_phenols)
+```
 
 ## AskAManager.org Data
 
