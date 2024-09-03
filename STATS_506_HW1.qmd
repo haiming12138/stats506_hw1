@@ -127,10 +127,10 @@ print(paste('Obs after: ', dim(df)[1]))
 
 e. I will be using the IQR method to identify outliers. (see citation) This method might remove some realistic observations, but it will help stabilize the distribution of salary. This may help with modeling as some models are very sensitive to outliers. As shown by the histogram, the filtered salary is somewhat normally distributed, which can be a desirable property for certain types of model.
 ```{r q2e}
-m <- median(df$salary)
+q <- quantile(df$salary, c(0.25, 0.75))
 iqr <- IQR(df$salary)
-min_val <- m - 1.5 * iqr
-max_val <- m + 1.5 * iqr
+min_val <- q[1] - 1.5 * iqr
+max_val <- q[2] + 1.5 * iqr
 
 print(paste('Obs before:', dim(df)[1]))
 df <- subset(df, salary >= min_val & salary <= max_val)
