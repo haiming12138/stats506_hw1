@@ -161,7 +161,7 @@ isPalindromic <- function(n) {
 }
 ```
 b. Here's the function.
-```{r}
+```{r q3b}
 #' @param n Positive integer
 #' @return Next palindromic number greater than the input
 nextPalindrome <- function(n) {
@@ -179,7 +179,7 @@ nextPalindrome <- function(n) {
 }
 ```
 c. Here are the results.
-```{r}
+```{r q3c}
 # i
 nextPalindrome(391)
 # ii
@@ -191,9 +191,10 @@ nextPalindrome(109)
 # v
 nextPalindrome(2)
 ```
-## Citaton
+## Citaton & Link to GitHub
 * [Use of ordered factor & mapply() in Q2d](https://stackoverflow.com/questions/39488927/apply-function-to-each-row-of-data-frame-and-preserve-column-classes)
 * [Outlier detection in Q2e](https://builtin.com/articles/1-5-iqr-rule)
+* [GitHub Repo of this Pset](https://github.com/haiming12138/stats506_hw1.git)
 
 
 
