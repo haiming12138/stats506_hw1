@@ -4,6 +4,7 @@ author: "Haiming Li"
 format: 
   html:
     toc: true
+  pdf: default
 ---
 
 ## Wine Data
@@ -93,10 +94,11 @@ df$age <- as.factor(df$age)
 df$yoe_total <- factor(df$yoe_total, yoe_levels, ordered = TRUE)
 df$yoe_in_field <- factor(df$yoe_in_field, yoe_levels, ordered = TRUE)
 
+#' Check if a given row of input has valid age & work experience
 #' @param  age age in a row of data
 #' @param  yoe_total total year of experience in a row of data
 #' @param  yoe_in_field year of experience in field in a row of data
-#' @return A boolean value indicate whether the row of data is valid
+#' @return A logical value indicate whether the row of data is valid
 isValid <- function(age, yoe_total, yoe_in_field) {
   if (age == "under 18") {
     return(FALSE)
@@ -142,6 +144,7 @@ hist(df$salary)
 ## Palindromic Numbers
 a. Here's the function.
 ```{r q3a}
+#' Check if a number is palindromic
 #' @param n Positive integer
 #' @return A list with two elements:
 #'         - isPalindromic: Boolean indicating if the input is palindromic
@@ -162,6 +165,7 @@ isPalindromic <- function(n) {
 ```
 b. Here's the function.
 ```{r q3b}
+#' Get next palindromic number that's strictly greater than input
 #' @param n Positive integer
 #' @return Next palindromic number greater than the input
 nextPalindrome <- function(n) {
@@ -195,6 +199,8 @@ nextPalindrome(2)
 * [Use of ordered factor & mapply() in Q2d](https://stackoverflow.com/questions/39488927/apply-function-to-each-row-of-data-frame-and-preserve-column-classes)
 * [Outlier detection in Q2e](https://builtin.com/articles/1-5-iqr-rule)
 * [GitHub Repo of this Pset](https://github.com/haiming12138/stats506_hw1.git)
+
+
 
 
 
